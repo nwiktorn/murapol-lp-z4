@@ -1730,7 +1730,8 @@ body.page-ready .hero-right {
   opacity: 1;
   pointer-events: all;
 }
-.lightbox img {
+.lightbox img,
+.lightbox video {
   max-width: 90vw;
   max-height: 85vh;
   object-fit: contain;
@@ -1739,7 +1740,8 @@ body.page-ready .hero-right {
   transform: scale(0.92);
   transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
 }
-.lightbox.open img {
+.lightbox.open img,
+.lightbox.open video {
   transform: scale(1);
 }
 .lightbox-caption {
@@ -2021,12 +2023,17 @@ body.page-ready .hero-right {
     <div class="gallery-shell">
       <div class="gallery-stage">
         <div class="gallery-media reveal" id="galleryMainWrap" onclick="openLightbox(this)">
-          <img
+          <video
             class="gallery-main-image"
-            id="galleryMainImage"
-            src="assets/30__3330633murapolriversidewroclawstrefarekreacyjnad.webp"
-            alt="Strefa rekreacyjna nad Odrą — Murapol RiverSide Wrocław"
-            style="object-position: center center;">
+            id="galleryMainMedia"
+            src="assets/gallery-park-video.mp4"
+            poster="assets/gallery-park-video-poster.jpg"
+            autoplay
+            muted
+            loop
+            playsinline
+            aria-label="Strefa rekreacyjna nad Odrą — Murapol RiverSide Wrocław"
+            style="object-position: center center;"></video>
           <div class="gallery-main-caption">
             <div>
               <div class="label">RiverSide Experience</div>
@@ -2067,8 +2074,8 @@ body.page-ready .hero-right {
         </div>
       </div>
       <div class="gallery-thumbs reveal" id="galleryThumbs">
-        <button class="gallery-thumb active" type="button" data-index="0" data-kicker="Nadodrzański rytm" data-title="Strefa rekreacyjna wśród zieleni" data-description="Ścieżki spacerowe, kameralne miejsca odpoczynku i kojąca zieleń budują codzienność, która naprawdę zwalnia tempo. To osiedlowa przestrzeń do oddechu, spotkań i chwili ciszy tuż przy rzece." data-meta-primary="Zieleń i relaks" data-meta-secondary="Na spokojne poranki i wieczorne spacery" data-src="assets/30__3330633murapolriversidewroclawstrefarekreacyjnad.webp" data-alt="Strefa rekreacyjna nad Odrą — Murapol RiverSide Wrocław" data-caption="Strefa rekreacyjna nad Odrą" data-main-position="center center" data-thumb-position="center center">
-          <img src="assets/30__3330633murapolriversidewroclawstrefarekreacyjnad.webp" alt="Strefa rekreacyjna nad Odrą" style="object-position: center center;">
+        <button class="gallery-thumb active" type="button" data-index="0" data-type="video" data-kicker="Nadodrzański rytm" data-title="Strefa rekreacyjna wśród zieleni" data-description="Ścieżki spacerowe, kameralne miejsca odpoczynku i kojąca zieleń budują codzienność, która naprawdę zwalnia tempo. To osiedlowa przestrzeń do oddechu, spotkań i chwili ciszy tuż przy rzece." data-meta-primary="Zieleń i relaks" data-meta-secondary="Na spokojne poranki i wieczorne spacery" data-src="assets/gallery-park-video.mp4" data-poster="assets/gallery-park-video-poster.jpg" data-alt="Strefa rekreacyjna nad Odrą — Murapol RiverSide Wrocław" data-caption="Strefa rekreacyjna nad Odrą" data-main-position="center center" data-thumb-position="center center">
+          <img src="assets/gallery-park-video-poster.jpg" alt="Strefa rekreacyjna nad Odrą" style="object-position: center center;">
           <span class="gallery-thumb-label">Zieleń nad Odrą</span>
         </button>
         <button class="gallery-thumb" type="button" data-index="1" data-kicker="Światło i architektura" data-title="Wysokie okna i jasne wnętrza" data-description="Duże przeszklenia otwierają mieszkania na światło dzienne i podkreślają nowoczesną architekturę budynków. W efekcie wnętrza są lekkie, eleganckie i bardziej komfortowe przez cały dzień." data-meta-primary="Naturalne doświetlenie" data-meta-secondary="Codzienna wygoda i lepszy nastrój" data-src="assets/37__3330655murapolriversidewroclawwysokieokna.webp" data-alt="Wysokie okna w mieszkaniach RiverSide" data-caption="Wysokie okna" data-main-position="center center" data-thumb-position="center center">
@@ -2261,6 +2268,7 @@ body.page-ready .hero-right {
 <div class="lightbox" id="lightbox" onclick="closeLightbox()">
   <button class="lightbox-close" onclick="closeLightbox()">×</button>
   <img id="lightboxImg" src="" alt="">
+  <video id="lightboxVideo" muted loop playsinline controls hidden></video>
   <div class="lightbox-caption" id="lightboxCaption"></div>
 </div>
 
@@ -2376,7 +2384,7 @@ function toggleChip(btn) {
 // Gallery carousel
 const galleryThumbs = [...document.querySelectorAll('.gallery-thumb')];
 const galleryMainWrap = document.getElementById('galleryMainWrap');
-const galleryMainImage = document.getElementById('galleryMainImage');
+let galleryMainMedia = document.getElementById('galleryMainMedia');
 const galleryMainCaption = document.getElementById('galleryMainCaption');
 const galleryMainIndex = document.getElementById('galleryMainIndex');
 const galleryMainLightboxCaption = document.getElementById('galleryMainLightboxCaption');
@@ -2391,6 +2399,29 @@ const galleryPrev = document.getElementById('galleryPrev');
 const galleryNext = document.getElementById('galleryNext');
 let activeGalleryIndex = 0;
 
+function createGalleryMedia(thumb) {
+  const isVideo = thumb.dataset.type === 'video';
+  const media = document.createElement(isVideo ? 'video' : 'img');
+
+  media.className = 'gallery-main-image';
+  media.id = 'galleryMainMedia';
+  media.src = thumb.dataset.src;
+  media.style.objectPosition = thumb.dataset.mainPosition || 'center center';
+
+  if (isVideo) {
+    media.poster = thumb.dataset.poster || '';
+    media.autoplay = true;
+    media.muted = true;
+    media.loop = true;
+    media.playsInline = true;
+    media.setAttribute('aria-label', thumb.dataset.alt || '');
+  } else {
+    media.alt = thumb.dataset.alt || '';
+  }
+
+  return media;
+}
+
 function updateGallerySlide(index) {
   if (!galleryThumbs.length) return;
 
@@ -2401,13 +2432,15 @@ function updateGallerySlide(index) {
     item.classList.toggle('active', itemIndex === activeGalleryIndex);
   });
 
-  galleryMainImage.style.opacity = '0.72';
-  galleryMainImage.style.transform = 'scale(1.02)';
+  galleryMainMedia.style.opacity = '0.72';
+  galleryMainMedia.style.transform = 'scale(1.02)';
 
   requestAnimationFrame(() => {
-    galleryMainImage.src = thumb.dataset.src;
-    galleryMainImage.alt = thumb.dataset.alt;
-    galleryMainImage.style.objectPosition = thumb.dataset.mainPosition || 'center center';
+    const nextMedia = createGalleryMedia(thumb);
+    nextMedia.style.opacity = '0.72';
+    nextMedia.style.transform = 'scale(1.02)';
+    galleryMainMedia.replaceWith(nextMedia);
+    galleryMainMedia = nextMedia;
     galleryMainCaption.textContent = thumb.dataset.caption;
     galleryMainLightboxCaption.textContent = thumb.dataset.caption;
     galleryMainIndex.textContent = `${String(activeGalleryIndex + 1).padStart(2, '0')} / ${String(galleryThumbs.length).padStart(2, '0')}`;
@@ -2418,8 +2451,11 @@ function updateGallerySlide(index) {
     galleryMetaSecondary.textContent = thumb.dataset.metaSecondary;
     galleryProgressCurrent.textContent = String(activeGalleryIndex + 1).padStart(2, '0');
     galleryProgressBar.style.width = `${((activeGalleryIndex + 1) / galleryThumbs.length) * 100}%`;
-    galleryMainImage.style.opacity = '1';
-    galleryMainImage.style.transform = 'scale(1)';
+    if (galleryMainMedia.tagName === 'VIDEO') {
+      galleryMainMedia.play().catch(() => {});
+    }
+    galleryMainMedia.style.opacity = '1';
+    galleryMainMedia.style.transform = 'scale(1)';
   });
 }
 
@@ -2440,11 +2476,27 @@ updateGallerySlide(0);
 
 // Lightbox
 function openLightbox(wrap) {
-  const img = wrap.querySelector('img');
+  const media = wrap.querySelector('.gallery-main-image') || wrap.querySelector('img');
   const caption = wrap.querySelector('.caption');
   const lb = document.getElementById('lightbox');
-  document.getElementById('lightboxImg').src = img.src;
-  document.getElementById('lightboxImg').alt = img.alt;
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxVideo = document.getElementById('lightboxVideo');
+
+  lightboxImg.hidden = media.tagName === 'VIDEO';
+  lightboxVideo.hidden = media.tagName !== 'VIDEO';
+
+  if (media.tagName === 'VIDEO') {
+    lightboxVideo.src = media.currentSrc || media.src;
+    lightboxVideo.poster = media.poster || '';
+    lightboxVideo.currentTime = 0;
+    lightboxVideo.play().catch(() => {});
+  } else {
+    lightboxVideo.pause();
+    lightboxVideo.removeAttribute('src');
+    lightboxVideo.load();
+    lightboxImg.src = media.src;
+    lightboxImg.alt = media.alt;
+  }
   document.getElementById('lightboxCaption').textContent = caption ? caption.textContent : '';
   lb.classList.add('open');
   document.body.style.overflow = 'hidden';
@@ -2452,6 +2504,8 @@ function openLightbox(wrap) {
 
 function closeLightbox() {
   document.getElementById('lightbox').classList.remove('open');
+  const lightboxVideo = document.getElementById('lightboxVideo');
+  lightboxVideo.pause();
   document.body.style.overflow = '';
 }
 
