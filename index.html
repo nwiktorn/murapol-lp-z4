@@ -1412,6 +1412,22 @@ em, .italic {
 }
 .reveal.in { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
 
+.gallery-media.reveal,
+.gallery-panel.reveal,
+.gallery-thumbs.reveal {
+  opacity: 1;
+  transform: translateY(18px);
+  filter: none;
+  transition-duration: 0.85s;
+}
+
+.gallery-media.reveal.in,
+.gallery-panel.reveal.in,
+.gallery-thumbs.reveal.in {
+  transform: translateY(0);
+  filter: none;
+}
+
 .btn-primary,
 .btn-ghost,
 .cta-pill,
@@ -1419,6 +1435,7 @@ em, .italic {
 .agent-card,
 .pkg-card,
 .usp-card,
+.gallery-carousel,
 .gallery-media,
 .gallery-thumb,
 .intro-gallery .img-wrap,
@@ -1992,7 +2009,7 @@ body.page-ready .hero-right {
 </section>
 
 <!-- GALLERY -->
-<section class="gallery reveal" id="gallery">
+<section class="gallery" id="gallery">
   <div class="gallery-head reveal">
     <div>
       <div class="section-num">IV · Galeria</div>
@@ -2000,10 +2017,10 @@ body.page-ready .hero-right {
     </div>
     <p>Wybrane wizualizacje z wnętrz, części wspólnych i okolicy inwestycji. Więcej w broszurze projektowej — poproś doradcę.</p>
   </div>
-  <div class="gallery-carousel reveal">
+  <div class="gallery-carousel">
     <div class="gallery-shell">
       <div class="gallery-stage">
-        <div class="gallery-media" id="galleryMainWrap" onclick="openLightbox(this)">
+        <div class="gallery-media reveal" id="galleryMainWrap" onclick="openLightbox(this)">
           <img
             class="gallery-main-image"
             id="galleryMainImage"
@@ -2019,7 +2036,7 @@ body.page-ready .hero-right {
           </div>
           <div class="caption" id="galleryMainLightboxCaption" hidden>Strefa rekreacyjna nad Odrą</div>
         </div>
-        <div class="gallery-panel">
+        <div class="gallery-panel reveal">
           <div class="gallery-kicker" id="galleryKicker">Nadodrzański rytm</div>
           <h3 id="galleryTitle">Strefa rekreacyjna wśród zieleni</h3>
           <p id="galleryDescription">Ścieżki spacerowe, kameralne miejsca odpoczynku i kojąca zieleń budują codzienność, która naprawdę zwalnia tempo. To osiedlowa przestrzeń do oddechu, spotkań i chwili ciszy tuż przy rzece.</p>
@@ -2049,7 +2066,7 @@ body.page-ready .hero-right {
           </div>
         </div>
       </div>
-      <div class="gallery-thumbs" id="galleryThumbs">
+      <div class="gallery-thumbs reveal" id="galleryThumbs">
         <button class="gallery-thumb active" type="button" data-index="0" data-kicker="Nadodrzański rytm" data-title="Strefa rekreacyjna wśród zieleni" data-description="Ścieżki spacerowe, kameralne miejsca odpoczynku i kojąca zieleń budują codzienność, która naprawdę zwalnia tempo. To osiedlowa przestrzeń do oddechu, spotkań i chwili ciszy tuż przy rzece." data-meta-primary="Zieleń i relaks" data-meta-secondary="Na spokojne poranki i wieczorne spacery" data-src="assets/30__3330633murapolriversidewroclawstrefarekreacyjnad.webp" data-alt="Strefa rekreacyjna nad Odrą — Murapol RiverSide Wrocław" data-caption="Strefa rekreacyjna nad Odrą" data-main-position="center center" data-thumb-position="center center">
           <img src="assets/30__3330633murapolriversidewroclawstrefarekreacyjnad.webp" alt="Strefa rekreacyjna nad Odrą" style="object-position: center center;">
           <span class="gallery-thumb-label">Zieleń nad Odrą</span>
