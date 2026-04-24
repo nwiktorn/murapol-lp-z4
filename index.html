@@ -382,6 +382,14 @@ em, .italic {
   animation: slowPan 22s ease-in-out infinite alternate;
   border-radius: 26px 0 0 26px;
   box-shadow: 0 20px 52px rgba(26, 26, 26, 0.12);
+  overflow: hidden;
+}
+.hero-image video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
 }
 @keyframes slowPan {
   from { transform: scale(1.01) translateY(0); }
@@ -1853,7 +1861,16 @@ body.page-ready .hero-right {
     </div>
   </div>
   <div class="hero-right">
-    <div class="hero-image"></div>
+    <div class="hero-image">
+      <video
+        src="assets/hero-building-video.mp4"
+        poster="assets/hero-building-video-poster.jpg"
+        autoplay
+        muted
+        loop
+        playsinline
+        aria-label="Wizualizacja budynku mieszkalnego Murapol RiverSide"></video>
+    </div>
     <div class="hero-scroll-cue" id="heroScrollCue"><span>Scroll</span></div>
   </div>
 </section>
