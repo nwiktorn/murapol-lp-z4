@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 540 100">
+  <defs>
+    <linearGradient id="logo-grad-1" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#3a6faf"/>
+      <stop offset="100%" stop-color="#1b3d6e"/>
+    </linearGradient>
+    <linearGradient id="logo-grad-2" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#8bb7e8"/>
+      <stop offset="100%" stop-color="#3a6faf"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(10, 10) scale(1.4)">
+    <path d="M0 50 L18 0 L36 50 L28 50 L18 22 L8 50 Z" fill="url(#logo-grad-1)"/>
+    <path d="M22 50 L40 0 L58 50 L50 50 L40 22 L30 50 Z" fill="url(#logo-grad-2)" opacity="0.9"/>
+  </g>
+  <text x="110" y="70" font-family="Arial, sans-serif" font-weight="700" font-size="64" letter-spacing="-1" fill="#4d4651">MURAPOL</text>
+</svg>
